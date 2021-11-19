@@ -335,7 +335,6 @@ def check_pair(thebot, triggerexchange, base, coin):
 
     # Get market of 3Commas because it's slightly different then exchanges
     if "Binance" in exchange or "Paper Account" in exchange:
-        tickerlist = get_threecommas_market("binance")
         tickerlist = ['USDT_BTCUSDT', 'USDT_ETHUSDT']
     elif exchange == "FTX":
         tickerlist = get_threecommas_market("ftx")
@@ -477,8 +476,12 @@ async def callback(event):
         True,
     )
 
-    trigger = event.raw_text.splitlines()
-    if trigger[0] == "BINANCE" or trigger[0] == "FTX" or trigger[0] == "KUCOIN":
+    trigger = event.raw_text.split()
+
+    if "BINANCE" in trigger[0]:
+
+        trigger[0] = 'My Binance account Futures USDT-M'
+
         exchange = trigger[0].replace("\n", "")
         pair = trigger[1].replace("#", "").replace("\n", "")
         base = pair.split("_")[0].replace("#", "").replace("\n", "")
